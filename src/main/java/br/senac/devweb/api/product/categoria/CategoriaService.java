@@ -1,6 +1,8 @@
 package br.senac.devweb.api.product.categoria;
 
+import br.senac.devweb.api.product.exceptions.NotFoundException;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,10 @@ public class CategoriaService {
 
     private CategoriaRepository categoriaRepository;
 
-    public Categoria salvar(CategoriaRepresentation.CreateCategoria createCategoria) {
+    public Categoria salvar(CategoriaRepresentation.CreateOrUpdateCategoria createOrUpdateCategoria) {
 
         return this.categoriaRepository.save(Categoria.builder()
-                .descricao(createCategoria.getDescricao())
+                .descricao(createOrUpdateCategoria.getDescricao())
                 .status(Categoria.Status.ATIVO)
                 .build());
 
@@ -27,9 +29,21 @@ public class CategoriaService {
     }
 
     public void deleteCategoria(Long id) {
-        Categoria categoria = this.categoriaRepository.findById(id).get();
 
+        Categoria categoria = this.getCategoria(id);
         categoria.setStatus(Categoria.Status.INATIVO);
         this.categoriaRepository.save(categoria);
+    }
+
+    public Categoria getCategoria(Long id) {
+        BooleanExpression filter = QCategoria.categoria.id.eq(id)
+                .and(QCategoria.categoria.status.eq(Categoria.Status.ATIVO));
+        return this.categoriaRepository.findOne(filter).orElseThrow(() -> new NotFoundException("Categoria não encontrada."));
+    }
+
+    public Categoria update(Long id, CategoriaRepresentation.CreateOrUpdateCategoria createOrUpdateCategoria) {
+        Categoria categoria = this.getCategoria(id);
+        categoria.setDescricao(createOrUpdateCategoria.getDescricao());
+        return this.categoriaRepository.save(categoria);
     }
 }
