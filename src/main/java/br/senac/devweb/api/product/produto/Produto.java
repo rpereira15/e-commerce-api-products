@@ -1,4 +1,4 @@
-package br.senac.devweb.api.product.produtos;
+package br.senac.devweb.api.product.produto;
 
 
 import br.senac.devweb.api.product.categoria.Categoria;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity(name = "PRODUTO")
 public class Produto {
 
