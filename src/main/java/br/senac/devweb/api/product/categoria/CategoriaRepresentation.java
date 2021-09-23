@@ -29,13 +29,11 @@ public interface CategoriaRepresentation {
     class Detail {
         private Long id;
         private String descricao;
-        private Categoria.Status status;
 
         public static Detail from(Categoria categoria) {
             return Detail.builder()
                     .id(categoria.getId())
                     .descricao(categoria.getDescricao())
-                    .status(categoria.getStatus())
                     .build();
         }
     }
