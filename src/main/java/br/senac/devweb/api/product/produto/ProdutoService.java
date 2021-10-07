@@ -38,27 +38,25 @@ public class ProdutoService {
         return this.produtoRepository.save(produto);
     }
 
-//    public Produto atualizar(Long id, ProdutoRepresentation.CreateOrUpdate createOrUpdate) {
+    public Produto atualizar(Long id, ProdutoRepresentation.CreateOrUpdate createOrUpdate, Categoria categoria) {
+
+        Produto produtoAntigo = this.buscarUm(id);
+
+        Produto produtoAtualizado = produtoAntigo.toBuilder()
+                .nome(createOrUpdate.getNome())
+                .descricao(createOrUpdate.getDescricao())
+                .complemento(Strings.isEmpty(createOrUpdate.getComplemento()) ? "" : createOrUpdate.getComplemento())
+                .fabricante(createOrUpdate.getFabricante())
+                .fornecedor(Strings.isEmpty(createOrUpdate.getFornecedor()) ? "" : createOrUpdate.getFornecedor())
+                .qtde(createOrUpdate.getQtde())
+                .valor(createOrUpdate.getValor())
+                .unidadeMedida(createOrUpdate.getUnidadeMedida())
+                .categoria(categoria)
+                .build();
+
+        return this.produtoRepository.save(produtoAtualizado);
+    }
 //
-//        Produto produtoAntigo = this.buscarUm(id);
-//
-//        Categoria categoria = this.categoriaService.getCategoria(createOrUpdate.getCategoria());
-//
-//        Produto produtoAtualizado = produtoAntigo.toBuilder()
-//                .nome(createOrUpdate.getNome())
-//                .descricao(createOrUpdate.getDescricao())
-//                .complemento(Strings.isEmpty(createOrUpdate.getComplemento()) ? "" : createOrUpdate.getComplemento())
-//                .fabricante(createOrUpdate.getFabricante())
-//                .fornecedor(Strings.isEmpty(createOrUpdate.getFornecedor()) ? "" : createOrUpdate.getFornecedor())
-//                .qtde(createOrUpdate.getQtde())
-//                .valor(createOrUpdate.getValor())
-//                .unidadeMedida(createOrUpdate.getUnidadeMedida())
-//                .categoria(categoria)
-//                .build();
-//
-//        return this.produtoRepository.save(produtoAtualizado);
-//
-//    }
 
     public List<Produto> buscarTodos(Predicate filter) {
         return this.produtoRepository.findAll(filter);

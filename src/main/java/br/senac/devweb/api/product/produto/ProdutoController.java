@@ -5,10 +5,7 @@ import br.senac.devweb.api.product.categoria.CategoriaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,13 +19,33 @@ public class ProdutoController {
 
     @PostMapping("/")
     public ResponseEntity<ProdutoRepresentation.Detalhes> cadastrarProduto(
-           @Valid @RequestBody ProdutoRepresentation.CreateOrUpdate createOrUpdate) {
+            @Valid @RequestBody ProdutoRepresentation.CreateOrUpdate createOrUpdate) {
 
         Categoria categoria = this.categoriaService.getCategoria(createOrUpdate.getCategoria());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProdutoRepresentation
                         .Detalhes.from(this.produtoService.salvar(createOrUpdate, categoria)));
+
+    }
+
+    @PutMapping ("/{id}")
+    public ResponseEntity<ProdutoRepresentation.Detalhes> atualizarProduto(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody ProdutoRepresentation.CreateOrUpdate createOrUpdate) {
+
+        Categoria categoria = this.categoriaService.getCategoria(createOrUpdate.getCategoria());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ProdutoRepresentation
+                        .Detalhes.from(this.produtoService.atualizar(id, createOrUpdate, categoria)));
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProdutoRepresentation.Detalhes> deletarProduto(@PathVariable("id") Long id) {
+        this.produtoService.deletar(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
 
     }
 
