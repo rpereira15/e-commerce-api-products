@@ -35,17 +35,14 @@ public class Produto {
     private String complemento;
 
     @NotNull(message = "O campo valor não pode ser nulo")
-    @NotEmpty(message = "O campo valor de medida não pode ser vazio")
     @Column(name = "VALOR")
     private Double valor;
 
     @NotNull(message = "O campo unidade de medida não pode ser nulo")
-    @NotEmpty(message = "O campo unidade de medida não pode ser vazio")
     @Column(name = "UNIDADE_MEDIDA")
     private UnidadeMedida unidadeMedida;
 
     @NotNull(message = "O campo quantidade não pode ser nulo")
-    @NotEmpty(message = "O campo quantidade não pode ser vazio")
     @Column(name = "QTDE")
     private Double qtde;
 
@@ -58,7 +55,6 @@ public class Produto {
     private String fornecedor;
 
     @NotNull(message = "O campo status não pode ser nulo")
-    @NotEmpty(message = "O campo status não pode ser vazio")
     @Column(name = "STATUS")
     private Status status;
 
