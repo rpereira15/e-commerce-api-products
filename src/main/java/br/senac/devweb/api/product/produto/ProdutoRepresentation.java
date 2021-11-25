@@ -47,6 +47,8 @@ public interface ProdutoRepresentation {
         private Long categoria;
     }
 
+
+
     @Data
     @Getter
     @Setter
