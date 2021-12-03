@@ -59,6 +59,13 @@ public class ProdutoController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoRepresentation.Detalhes> getProduto(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(ProdutoRepresentation.Detalhes
+                .from(this.produtoService.buscarUm(id)));
+
+    }
+
     @GetMapping("/")
     public ResponseEntity<Paginacao> buscarTodosProdutos(
             // Filtro com predicate utilizado para filtrar com qualquer atributo
